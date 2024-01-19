@@ -39,7 +39,7 @@ import { ACTION_MAP, TUIO_EVENT_ACTION, TUIO_EVENT_SOURCE } from "./constants";
 export class TUIOManager {
   static clickMaximumDistance = 7;
   static clickMaximumDuration = 300;
-  static deleteDelay = 100;
+  static deleteDelay = 300;
   static pointerTransitionDuration = 50;
   static updateDistanceThreshold = 5;
   static updateRotationThreshold = 0.07;
@@ -121,6 +121,7 @@ export class TUIOManager {
     const optionsFilled = {
       showInteractions: true,
       socketIOUrl: "http://localhost:9000",
+      displayTagId: false,
       ...options,
     };
     if (!TUIOManager.instance) {
@@ -153,7 +154,11 @@ export class TUIOManager {
    */
   handleSocketEvent(socketData, action, afterTimeout = false) {
     const id = socketData.id;
-    if (action === TUIO_EVENT_ACTION.DELETE && !afterTimeout) {
+    if (
+      action === TUIO_EVENT_ACTION.DELETE &&
+      socketData.type === "TAG" &&
+      !afterTimeout
+    ) {
       clearTimeout(this.deleteTimeouts.get(id));
       this.deleteTimeouts.set(
         id,
@@ -163,7 +168,10 @@ export class TUIOManager {
         ),
       );
       return;
-    } else if (action === TUIO_EVENT_ACTION.CREATE) {
+    } else if (
+      action !== TUIO_EVENT_ACTION.DELETE &&
+      socketData.type === "TAG"
+    ) {
       clearTimeout(this.deleteTimeouts.get(id));
     }
     const anchorX = Math.round(socketData.x * this.anchorWidth);
