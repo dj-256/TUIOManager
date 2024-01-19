@@ -49,7 +49,7 @@ export class TUIOManager {
    * @property {HTMLElement|undefined} anchor - The HTML element to use as anchor for the TUIOManager. If not provided, the window will be used.
    * @property {boolean|undefined} showInteractions - Show interactions on screen. Default : true
    * @property {string|undefined} socketIOUrl - Socket IO Server's url. Default : 'http://localhost:9000'
-   * @property {boolean|undefined} displayTagId - Display tag id on screen. Default : false
+   * @property {boolean|undefined} showTagIds - Display tag ids on screen. If `showInteractions` is false, this option is ignored. Default : false
    */
 
   /**
@@ -58,7 +58,7 @@ export class TUIOManager {
    * @constructor
    * @param {TUIOManagerOptions} options - Options for the TUIOManager.
    */
-  constructor({ anchor, showInteractions, socketIOUrl, displayTagId }) {
+  constructor({ anchor, showInteractions, socketIOUrl, showTagIds }) {
     /**
      * @type {number}
      * @description Width of the window.
@@ -106,7 +106,7 @@ export class TUIOManager {
     /**
      * @type {boolean}
      */
-    this.displayTagId = displayTagId;
+    this.showTagIds = showInteractions && showTagIds;
     this.initResizeListener(anchor);
     this.initSocketIOListeners();
     this.addPointerDrawingListeners();
@@ -121,7 +121,7 @@ export class TUIOManager {
     const optionsFilled = {
       showInteractions: true,
       socketIOUrl: "http://localhost:9000",
-      displayTagId: false,
+      showTagIds: false,
       ...options,
     };
     if (!TUIOManager.instance) {
