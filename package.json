@@ -1,6 +1,6 @@
 {
   "name": "@dj256/tuiomanager",
-  "version": "2.2.14",
+  "version": "2.2.15",
   "type": "module",
   "scripts": {
     "build": "esbuild src/browser.js --bundle --minify --sourcemap --outfile=dist/tuiomanager.js",
@@ -27,7 +27,7 @@
     "socket.io-client": "4.7.5"
   },
   "devDependencies": {
-    "esbuild": "0.21.5",
+    "esbuild": "0.22.0",
     "eslint": "^9.5.0",
     "eslint-config-prettier": "^9.1.0",
     "prettier": "3.2.5"
